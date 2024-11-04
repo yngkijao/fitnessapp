@@ -62,9 +62,13 @@ export default function Workouts() {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    .then(res => res.json())
+    .then(res => {
+      console.log("Delete response status:", res.status); // Add log
+      return res.json();
+    })
     .then(data => {
-      if (data.success) {
+      console.log("Delete response data:", data); // Add log
+      if (data.success || data.message === "Workout deleted successfully") { // Check for success
         setWorkouts(workouts.filter(workout => workout._id !== id));
         notyf.success('Workout deleted successfully');
       } else {
